@@ -18,6 +18,7 @@ public class Film {
 	private List<Actor> actors;
 	
 	
+	
 
 	public List<Actor> getActors() {
 		return actors;
@@ -50,6 +51,19 @@ public class Film {
 	}
 	
 	
+	public Film(int filmID, String description, int releaseYear, int langID, String title, String rating,
+			List<Actor> actors) {
+		super();
+		this.filmID = filmID;
+		this.description = description;
+		this.releaseYear = releaseYear;
+		this.langID = langID;
+		this.title = title;
+		this.rating = rating;
+		this.actors = actors;
+	}
+
+
 	public String getRating() {
 		return rating;
 	}
@@ -172,12 +186,12 @@ public class Film {
 
 	@Override
 	public String toString() {
-		return "Film [filmID=" + filmID + ", description=" + description + ", releaseYear=" + releaseYear + ", langID="
-				+ langID + ", rentDuration=" + rentDuration + ", rentRate=" + rentRate + ", length=" + length
-				+ ", replaceCost=" + replaceCost + ", title=" + title + ", rating=" + rating + ", specFeatures="
-				+ specFeatures + "]";
+		return "Film [Film ID: " + filmID + ", \nDescription: " + description + ", \nRelease Year: " + releaseYear + ", \nTitle: "
+				+ title + ", \nRating: " + rating + ", \nActors: " + actors + "]";
 	}
 
+
+	
 	
 	
 			
