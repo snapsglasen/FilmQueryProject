@@ -138,9 +138,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, keyword);
+			stmt.setString(2, keyword);
 			ResultSet rs = stmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				int filmID = rs.getInt("id");
 				String title = rs.getString("title");
 				String description = rs.getString("description");
@@ -155,12 +156,11 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 				Film film = new Film(filmID, description, releaseYear, langID, title, rating,
 						findActorsByFilmId(filmID));
-				System.out.println(film);
-				System.out.println(findFilmLanguage(filmID));
 				films.add(film);
 
 			}
-
+			
+			System.out.println(films.size());
 			rs.close();
 			stmt.close();
 

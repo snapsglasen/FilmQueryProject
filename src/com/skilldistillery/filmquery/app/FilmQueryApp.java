@@ -1,5 +1,6 @@
 package com.skilldistillery.filmquery.app;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
@@ -7,7 +8,7 @@ import com.skilldistillery.filmquery.database.DatabaseAccessorObject;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class FilmQueryApp {
-
+	boolean loop = true;
 	DatabaseAccessor db = new DatabaseAccessorObject();
 
 	public static void main(String[] args) {
@@ -23,9 +24,9 @@ public class FilmQueryApp {
 
 	private void launch() {
 		Scanner input = new Scanner(System.in);
-
-		startUserInterface(input);
-
+		while (loop) {
+			startUserInterface(input);
+		}
 		input.close();
 	}
 
@@ -37,38 +38,41 @@ public class FilmQueryApp {
 		System.out.println("Type 2 to search for a film by keyword");
 		System.out.println("Type 3 to exit this application");
 		int menuChoice = input.nextInt();
-		do {
-			if (menuChoice == 1) {
-				System.out.println("Please enter film's Film ID: ");
-				int filmID = input.nextInt();
-				if (dao.findFilmById(filmID) == null) {
-					System.out.println("No film was found matching that Film ID");
-				} else {
-					System.out.println(dao.findFilmById(filmID));
-					System.out.println(dao.findFilmLanguage(filmID));
 
+		if (menuChoice == 1) {
+			System.out.println("Please enter film's Film ID: ");
+			int filmID = input.nextInt();
+			if (dao.findFilmById(filmID) == null) {
+				System.out.println("No film was found matching that Film ID");
+			} else {
+				System.out.println(dao.findFilmById(filmID));
+				System.out.println("Language: " + dao.findFilmLanguage(filmID));
+
+			}
+
+		}
+
+		if (menuChoice == 2) {
+			System.out.println("Please enter a keyword for a film: ");
+			String kw = input.next();
+			kw = "%" + kw + "%";
+
+			if (dao.findFilmByKeyword(kw) == null) {
+				System.out.println("No films where found containing that keyword.");
+			} else {
+				List<Film> films = dao.findFilmByKeyword(kw);
+				for (Film f : films) {
+					System.out.println(f);
+					System.out.println("Language: " + dao.findFilmLanguage(f.getFilmID()));
 				}
 
 			}
 
-			if (menuChoice == 2) {
-				System.out.println("Please enter a keyword for a film: ");
-				String kw = input.next();
-				if (dao.findFilmByKeyword(kw) == null) {
-					System.out.println("No films where found containing that keyword.");
-				} else {
+		}
+		if (menuChoice == 3) {
+			System.out.println("Goodbye");
+			loop = false;
 
-					dao.findFilmByKeyword(kw);
-				}
-
-			}
-
-			if (menuChoice == 3) {
-				System.out.println("Goodbye");
-				break;
-
-			}
-		} while (true);
+		}
 	}
-
 }
